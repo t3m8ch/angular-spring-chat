@@ -29,28 +29,31 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.messages$ = this.messagesQuery.selectAll();
     this.route.queryParams.subscribe((queryParam) => (this.nickname = queryParam['nickname']));
-    this.rxStompService.activate()
+    this.rxStompService.activate();
+
     const connectedSub = this.rxStompService.connected$.subscribe((state) => {
       if (state === RxStompState.OPEN) {
         console.log('Successful connection to websockets');
       }
-    })
+    });
+
     const watchSub = this.rxStompService.watch('/topic/messages').subscribe((message: Message) => {
-      const messageModel: MessageModel = JSON.parse(message.body)
-      this.messagesService.addMessage(messageModel)
-    })
+      const messageModel: MessageModel = JSON.parse(message.body);
+      this.messagesService.addMessage(messageModel);
+    });
+
     this.subscriptions.push(connectedSub, watchSub);
   }
 
   async ngOnDestroy() {
-    await this.rxStompService.deactivate()
-    this.subscriptions.forEach((sub) => sub.unsubscribe())
+    await this.rxStompService.deactivate();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
     this.subscriptions = [];
   }
 
   onSendMessage({ text }: SendMessageEvent) {
     const userNickname = this.nickname;
-    const body = { userNickname, text }
-    this.rxStompService.publish({ destination: '/wsApp/message', body: JSON.stringify(body) })
+    const body = { userNickname, text };
+    this.rxStompService.publish({ destination: '/wsApp/message', body: JSON.stringify(body) });
   }
 }
