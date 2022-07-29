@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SendMessageEvent } from '../send-message-form/send-message-form.events';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MessageModel } from '../state/message.model';
 import { MessagesQuery } from '../state/messages.query';
 import { MessagesService } from '../state/messages.service';
@@ -17,6 +17,7 @@ import { RxStompState } from '@stomp/rx-stomp';
 export class ChatPageComponent implements OnInit, OnDestroy {
   messages$!: Observable<MessageModel[]>;
   nickname!: string;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private messagesQuery: MessagesQuery,
@@ -29,19 +30,22 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     this.messages$ = this.messagesQuery.selectAll();
     this.route.queryParams.subscribe((queryParam) => (this.nickname = queryParam['nickname']));
     this.rxStompService.activate()
-    this.rxStompService.connected$.subscribe((state) => {
+    const connectedSub = this.rxStompService.connected$.subscribe((state) => {
       if (state === RxStompState.OPEN) {
         console.log('Successful connection to websockets');
       }
     })
-    this.rxStompService.watch('/topic/messages').subscribe((message: Message) => {
+    const watchSub = this.rxStompService.watch('/topic/messages').subscribe((message: Message) => {
       const messageModel: MessageModel = JSON.parse(message.body)
       this.messagesService.addMessage(messageModel)
     })
+    this.subscriptions.push(connectedSub, watchSub);
   }
 
   async ngOnDestroy() {
     await this.rxStompService.deactivate()
+    this.subscriptions.forEach((sub) => sub.unsubscribe())
+    this.subscriptions = [];
   }
 
   onSendMessage({ text }: SendMessageEvent) {
