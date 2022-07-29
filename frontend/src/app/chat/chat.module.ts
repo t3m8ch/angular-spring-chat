@@ -12,6 +12,7 @@ import { MessagesService } from './state/messages.service';
 import { MessagesStore } from './state/messages.store';
 import { NicknameInQueryParamsGuard } from './guards/nickname-in-query-params.guard';
 import { WebsocketsModule } from '../websockets/websockets.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ChatPageComponent, MessageItemComponent, MessagesListComponent, SendMessageFormComponent],
@@ -24,6 +25,7 @@ import { WebsocketsModule } from '../websockets/websockets.module';
     TuiButtonModule,
     ReactiveFormsModule,
     WebsocketsModule,
+    RouterModule,
   ],
   providers: [MessagesQuery, MessagesService, MessagesStore, NicknameInQueryParamsGuard],
 })

@@ -1,5 +1,8 @@
 <div class='tui-container'>
-  <h1 class='tui-text_h5'>Вы вошли под никнеймом <i>{{ nickname }}</i></h1>
+  <div class='chat-header'>
+    <h1 class='tui-text_h5'>Вы вошли под никнеймом <i>{{ nickname }}</i></h1>
+    <a routerLink='/login' tuiButton size='s'>Поменять никнейм</a>
+  </div>
   <app-messages-list [messages]='messages$ | async'></app-messages-list>
   <app-send-message-form (sendMessage)='onSendMessage($event)'></app-send-message-form>
 </div>
