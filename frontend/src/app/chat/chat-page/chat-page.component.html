@@ -3,6 +3,15 @@
     <h1 class='tui-text_h5'>Вы вошли под никнеймом <i>{{ nickname }}</i></h1>
     <a routerLink='/login' tuiButton size='s'>Поменять никнейм</a>
   </div>
-  <app-messages-list [messages]='messages$ | async'></app-messages-list>
-  <app-send-message-form (sendMessage)='onSendMessage($event)'></app-send-message-form>
+
+  <div *ngIf='loading; then loader else chat'></div>
+
+  <ng-template #loader>
+    <tui-loader size='xxl' class='tui-space_top-4'></tui-loader>
+  </ng-template>
+
+  <ng-template #chat>
+    <app-messages-list [messages]='messages$ | async'></app-messages-list>
+    <app-send-message-form (sendMessage)='onSendMessage($event)'></app-send-message-form>
+  </ng-template>
 </div>

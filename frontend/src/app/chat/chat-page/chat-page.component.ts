@@ -18,6 +18,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   messages$!: Observable<MessageModel[]>;
   nickname!: string;
   subscriptions: Subscription[] = [];
+  loading = true;
 
   constructor(
     private messagesQuery: MessagesQuery,
@@ -34,6 +35,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     const connectedSub = this.rxStompService.connected$.subscribe((state) => {
       if (state === RxStompState.OPEN) {
         console.log('Successful connection to websockets');
+        this.loading = false;
       }
     });
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatPageComponent } from './chat-page/chat-page.component';
-import { TuiButtonModule, TuiGroupModule, TuiScrollbarModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiGroupModule, TuiLoaderModule, TuiScrollbarModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiIslandModule } from '@taiga-ui/kit';
 import { MessageItemComponent } from './message-item/message-item.component';
 import { MessagesListComponent } from './messages-list/messages-list.component';
@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     WebsocketsModule,
     RouterModule,
+    TuiLoaderModule,
   ],
   providers: [MessagesQuery, MessagesService, MessagesStore, NicknameInQueryParamsGuard],
 })
