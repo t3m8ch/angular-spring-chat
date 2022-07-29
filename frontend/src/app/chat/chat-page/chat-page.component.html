@@ -1,0 +1,5 @@
+<div class='tui-container'>
+  <h1 class='tui-text_h5'>Вы вошли под никнеймом <i>{{ nickname }}</i></h1>
+  <app-messages-list [messages]='messages$ | async'></app-messages-list>
+  <app-send-message-form (sendMessage)='onSendMessage($event)'></app-send-message-form>
+</div>

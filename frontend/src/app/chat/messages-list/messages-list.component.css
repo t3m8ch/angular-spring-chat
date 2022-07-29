@@ -1,0 +1,8 @@
+.chat-box {
+  height: 60vh;
+}
+
+.message + .message {
+  display: block;
+  margin-top: 0.75rem;
+}

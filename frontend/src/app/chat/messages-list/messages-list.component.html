@@ -1,0 +1,9 @@
+<tui-scrollbar class='chat-box tui-space_top-4'>
+  <div class='content'>
+    <app-message-item
+      *ngFor='let message of messages; trackBy: trackMessages'
+      class='message'
+      [message]='message'
+    ></app-message-item>
+  </div>
+</tui-scrollbar>

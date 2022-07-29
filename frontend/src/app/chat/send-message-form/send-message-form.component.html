@@ -1,0 +1,8 @@
+<form class='tui-space_top-4' [formGroup]='sendMessageFormGroup' (submit)='onSubmit()'>
+  <tui-group class='tui-space_top-4'>
+    <tui-input formControlName='messageText'>Введите сообщение</tui-input>
+    <button tuiButton type='submit' [disabled]='sendMessageFormGroup.invalid' class="tui-group__auto-width-item">
+      Отправить
+    </button>
+  </tui-group>
+</form>

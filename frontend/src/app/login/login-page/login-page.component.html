@@ -1,0 +1,7 @@
+<div class='tui-container'>
+  <h1 class='tui-text_h1'>Вход</h1>
+  <form (submit)='onSubmit()' [formGroup]='formGroup'>
+    <tui-input formControlName='nickname'>Введите свой никнейм</tui-input>
+    <button tuiButton type='submit' class='tui-space_top-2' size='m' [disabled]='formGroup.invalid'>Войти</button>
+  </form>
+</div>
