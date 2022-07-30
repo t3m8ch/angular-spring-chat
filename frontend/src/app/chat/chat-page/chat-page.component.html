@@ -4,7 +4,7 @@
     <a routerLink='/login' tuiButton size='s'>Поменять никнейм</a>
   </div>
 
-  <div *ngIf='loading; then loader else chat'></div>
+  <div *ngIf='loading$ | async; then loader else chat'></div>
 
   <ng-template #loader>
     <tui-loader size='xxl' class='tui-space_top-4'></tui-loader>
