@@ -30,11 +30,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.messages$ = this.messagesQuery.selectAll();
     this.route.queryParams.subscribe((queryParam) => (this.nickname = queryParam['nickname']));
-    this.rxStompService.activate();
 
-    const connectedSub = this.rxStompService.connected$.subscribe((state) => {
+    const connectedSub = this.rxStompService.connect().subscribe((state) => {
       if (state === RxStompState.OPEN) {
-        console.log('Successful connection to websockets');
         this.loading = false;
       }
     });
