@@ -20,12 +20,13 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     private messagesQuery: MessagesQuery,
     private messagesService: MessagesService,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.messages$ = this.messagesQuery.selectAll();
     this.loading$ = this.messagesQuery.selectLoading();
-    this.route.queryParams.subscribe((queryParam) => (this.nickname = queryParam['nickname']));
+    this.setNickname();
 
     this.messagesService.connect();
   }
@@ -37,5 +38,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   onSendMessage({ text }: SendMessageEvent) {
     const userNickname = this.nickname;
     this.messagesService.addMessage({ userNickname, text });
+  }
+
+  setNickname() {
+    this.route.queryParams.subscribe((queryParam) => (this.nickname = queryParam['nickname']));
   }
 }
