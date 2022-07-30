@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 
 @Injectable()
 export class MessagesService {
-  constructor(private messagesStore: MessagesStore, private rxStompService: RxStompService) {}
+  constructor(private messagesStore: MessagesStore, private rxStompService: RxStompService) {
+  }
 
   private subscriptions: Subscription[] = [];
 
@@ -18,14 +19,16 @@ export class MessagesService {
     const connectSub = this.rxStompService.connect().subscribe((state) => {
       if (state === RxStompState.OPEN) {
         this.messagesStore.setLoading(false);
-
-        const watchSub = this.rxStompService.watch('/topic/messages').subscribe((message: Message) => {
-          const messageModel: CreateMessageDTO = JSON.parse(message.body);
-          this.messagesStore.add(createMessage(messageModel));
-        });
-
+        const watchSub = this.watchMessagesTopic();
         this.subscriptions.push(connectSub, watchSub);
       }
+    });
+  }
+
+  private watchMessagesTopic(): Subscription {
+    return this.rxStompService.watch('/topic/messages').subscribe((message: Message) => {
+      const messageModel: CreateMessageDTO = JSON.parse(message.body);
+      this.messagesStore.add(createMessage(messageModel));
     });
   }
 
